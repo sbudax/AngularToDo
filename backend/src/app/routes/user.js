@@ -3,6 +3,7 @@ const { check, validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const auth = require("../middleware/auth")
 
 const User = require("../models/user");
 
@@ -126,6 +127,17 @@ router.post("/login", [
         }
     }
 );
+
+router.get("/me", auth, async (req, res) => {
+    try {
+      // request.user is getting fetched from Middleware after token authentication
+      const user = await User.findById(req.user.id);
+      res.json(user);
+    } catch (e) {
+      res.send({ message: "Error in Fetching user" });
+    }
+  });
+
 
 //https://dev.to/dipakkr/implementing-authentication-in-nodejs-with-express-and-jwt-codelab-1-j5i
 
