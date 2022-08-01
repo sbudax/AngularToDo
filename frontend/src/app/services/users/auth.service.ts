@@ -8,8 +8,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  register(){
-    
+  register(data :any){
+
+    return this.http.post('localhost:4000/user/signup',data);
+
   }
 
 }

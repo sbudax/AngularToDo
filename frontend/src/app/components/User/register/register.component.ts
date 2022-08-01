@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup ,FormControl} from '@angular/forms';
+import { AuthService } from 'src/app/services/users/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -8,27 +9,39 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  form: FormGroup;
 
-  constructor(public fb: FormBuilder, private http: HttpClient) {
-    this.form = this.fb.group({
-      username: [''],
-      email: [''],
-      password: ['']
-    })
-   }
+  newData :any
+
+  form: FormGroup = new FormGroup({
+    username: new FormControl(''),
+    email: new FormControl(''),
+    password: new FormControl(''),
+  })
+
+  constructor(private Auth:AuthService) {
+    }
+
+    registerUser(){
+     
+      const data ={
+        username:this.form.value.username,
+        email:this.form.value.email,
+        password:this.form.value.password
+      }
+
+      console.table(data)
+
+      this.newData =data;
+    }
+   
+
+
 
   ngOnInit(): void {
-  }
+    this.Auth.register(this.newData).subscribe((data)=>{
+      console.log(data)
+    })
 
-  registerUser(){
-    var formData: any = new FormData();
-    formData.append('username',this.form.get('username')?.value);
-    formData.append('email',this.form.get('email')?.value);
-    formData.append('password',this.form.get('password')?.value);
-    this.http.post('http://localhost:4000/user/signup', formData).subscribe({
-      next: (response) => console.log(response),
-      error: (error) => console.log(error)
-    });
   }
+ 
 }
