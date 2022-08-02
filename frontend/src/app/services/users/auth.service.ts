@@ -10,7 +10,7 @@ export class AuthService {
 
   register(data :any){
 
-    return this.http.post('localhost:4000/user/signup',data);
+    return this.http.post('localhost:4000/user/signup',data,{responseType: 'json'});
 
   }
 

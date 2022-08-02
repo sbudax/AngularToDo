@@ -32,16 +32,12 @@ export class RegisterComponent implements OnInit {
       console.table(data)
 
       this.newData =data;
+      this.Auth.register(this.newData).subscribe((data)=>{
+        console.log(data)
+      });
     }
    
-
-
-
   ngOnInit(): void {
-    this.Auth.register(this.newData).subscribe((data)=>{
-      console.log(data)
-    })
-
   }
  
 }
