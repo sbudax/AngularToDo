@@ -6,6 +6,7 @@ const router = express.Router();
 const auth = require("../middleware/auth")
 
 const User = require("../models/user");
+const user = require("../models/user");
 
 /**
  * @method - POST
@@ -13,6 +14,8 @@ const User = require("../models/user");
  * @description - User SignUp
  */
 
+
+// register a user
 router.post("signup", [check("username", "Please Enter a Valid Username").not().isEmpty(),
 check("email", "Please enter a valid email").isEmail(),
 check("password", "Please enter a valid password").isLength({ min: 6 })
@@ -68,7 +71,7 @@ check("password", "Please enter a valid password").isLength({ min: 6 })
     }
 );
 
-
+// Login a user
 router.post("/signin", [
     check("email", "Please enter a valid email").isEmail(),
     check("password", "Please enter a valid password").isLength({
@@ -128,6 +131,8 @@ router.post("/signin", [
     }
 );
 
+
+// get logged user
 router.get("/me", auth, async (req, res) => {
     try {
       // request.user is getting fetched from Middleware after token authentication
@@ -137,8 +142,5 @@ router.get("/me", auth, async (req, res) => {
       res.send({ message: "Error in Fetching user" });
     }
   });
-
-
-//https://dev.to/dipakkr/implementing-authentication-in-nodejs-with-express-and-jwt-codelab-1-j5i
 
 module.exports = router;

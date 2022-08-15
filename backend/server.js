@@ -2,15 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const InitiateMongoServer = require("./src/app/config/config");
 const user = require("./src/app/routes/user");
-const cors = require("cors")
-// var corsOptions = {
-//   origin: 'http://localhost:4200'
-// };
+const cors = require("cors");
+var corsOptions = {
+  origin: '*'
+};
 // Initiate Mongo Server
 InitiateMongoServer();
 
 const app = express();
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 // PORT
 const PORT = process.env.PORT || 4000;
